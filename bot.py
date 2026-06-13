@@ -7,17 +7,17 @@ from datetime import date
 from email.message import EmailMessage
 
 
-OWM_API_KEY = os.getenv("OWM_API_KEY")
-EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
-EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
-RECEIVER_EMAIL = os.getenv("RECEIVER_EMAIL")
+OWM_API_KEY=os.getenv("OWM_API_KEY")
+EMAIL_ADDRESS=os.getenv("EMAIL_ADDRESS")
+EMAIL_PASSWORD=os.getenv("EMAIL_PASSWORD")
+RECEIVER_EMAIL=os.getenv("RECEIVER_EMAIL")
 
 
-def get_weather_data(city="Thiruvananthapuram"):
-    """Fetch weather from OpenWeatherMap and return temp, condition, and text."""
+def get_weather_data(city="Kottayam"):
+    """Fetch weather from OpenWeatherMap and return temp,condition,and text."""
     if not OWM_API_KEY:
         return None,None,"Weather unavailable (API Key missing)"  
-    url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={OWM_API_KEY}&units=metric"
+    url= f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={OWM_API_KEY}&units=metric"
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
@@ -45,13 +45,13 @@ def get_quote():
 
 def send_email_alert(city, temp, condition):
     if not all([EMAIL_ADDRESS, EMAIL_PASSWORD, RECEIVER_EMAIL]):
-        print("Email credentials missing. Skipping email alert.")
+        print("Email credentials missing.Skipping email alert.")
         return
 
     msg =EmailMessage()
-    msg['Subject'] = f"Weather Alert for {city}!"
-    msg['From'] = EMAIL_ADDRESS
-    msg['To'] = RECEIVER_EMAIL
+    msg['Subject']=f"Weather Alert for {city}!"
+    msg['From']=EMAIL_ADDRESS
+    msg['To']=RECEIVER_EMAIL
     
     body = (
         f"Extreme weather conditions detected in {city}.\n\n"
@@ -72,7 +72,7 @@ def send_email_alert(city, temp, condition):
 
 
 def build_summary():
-    """Assemble the summary and trigger alerts if necessary."""
+    """Build summary and trigger alerts if necessary."""
     today = date.today().strftime("%A, %d %B %Y")
     city = "Thiruvananthapuram"
     
@@ -111,4 +111,3 @@ def run():
 
 if __name__ == "__main__":
     run()
-    

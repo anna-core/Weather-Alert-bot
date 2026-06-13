@@ -79,9 +79,9 @@ def build_summary():
     temp, condition, weather_text = get_weather_data(city)
     quote=get_quote()
 
-    #Checking alert conditions(>20°C or Rain)
+    #Checking alert conditions(>35°C or Rain)
     if temp is not None and condition is not None:
-        if temp > 35 or "rain" in condition.lower():
+        if temp > 20 or "rain" in condition.lower():
             print(f"Alert conditions met! Temp: {temp}°C,Condition: {condition}.")
             send_email_alert(city, temp, condition)
 

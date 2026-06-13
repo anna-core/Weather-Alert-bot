@@ -13,7 +13,7 @@ EMAIL_PASSWORD=os.getenv("EMAIL_PASSWORD")
 RECEIVER_EMAIL=os.getenv("RECEIVER_EMAIL")
 
 
-def get_weather_data(city="Kottayam"):
+def get_weather_data(city="Thiruvananthapuram"):
     """Fetch weather from OpenWeatherMap and return temp,condition,and text."""
     if not OWM_API_KEY:
         return None,None,"Weather unavailable (API Key missing)"  

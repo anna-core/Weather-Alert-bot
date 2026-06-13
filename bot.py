@@ -81,7 +81,7 @@ def build_summary():
 
     #Checking alert conditions(>35°C or Rain)
     if temp is not None and condition is not None:
-        if temp > 20 or "rain" in condition.lower():
+        if temp > 35 or "rain" in condition.lower():
             print(f"Alert conditions met! Temp: {temp}°C,Condition: {condition}.")
             send_email_alert(city, temp, condition)
 
@@ -111,3 +111,4 @@ def run():
 
 if __name__ == "__main__":
     run()
+    

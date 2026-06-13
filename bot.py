@@ -15,9 +15,12 @@ RECEIVER_EMAIL=os.getenv("RECEIVER_EMAIL")
 
 def get_weather_data(city="Thiruvananthapuram"):
     """Fetch weather from OpenWeatherMap and return temp,condition,and text."""
+
     if not OWM_API_KEY:
         return None,None,"Weather unavailable (API Key missing)"  
+    
     url= f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={OWM_API_KEY}&units=metric"
+
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
@@ -33,7 +36,9 @@ def get_weather_data(city="Thiruvananthapuram"):
 
 def get_quote():
     """Fetch a random motivational quote from ZenQuotes."""
+
     url = "https://zenquotes.io/api/random"
+
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
@@ -75,7 +80,6 @@ def build_summary():
     """Build summary and trigger alerts if necessary."""
     today = date.today().strftime("%A, %d %B %Y")
     city = "Thiruvananthapuram"
-    
     temp, condition, weather_text = get_weather_data(city)
     quote=get_quote()
 
@@ -84,6 +88,7 @@ def build_summary():
         if temp > 35 or "rain" in condition.lower():
             print(f"Alert conditions met! Temp: {temp}°C,Condition: {condition}.")
             send_email_alert(city, temp, condition)
+
 
     summary = f"""
     WEATHER ALERT BOT - Daily Summary
@@ -107,7 +112,7 @@ def run():
     with open("daily_summary.txt", "w", encoding="utf-8") as f:
         f.write(summary)
     print("Weather Alert Bot ran successfully.")
-
+    
 
 if __name__ == "__main__":
     run()

@@ -7,7 +7,6 @@ from datetime import date
 from email.message import EmailMessage
 
 
-#Fetch credentials from environment variables
 OWM_API_KEY = os.getenv("OWM_API_KEY")
 EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
 EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
@@ -31,6 +30,7 @@ def get_weather_data(city="Thiruvananthapuram"):
     except Exception as e:
         return None, None, f"Weather unavailable ({e})"
 
+
 def get_quote():
     """Fetch a random motivational quote from ZenQuotes."""
     url = "https://zenquotes.io/api/random"
@@ -41,6 +41,7 @@ def get_quote():
         return f'"{data[0]["q"]}" - {data[0]["a"]}'
     except Exception as e:
         return f"Quote unavailable ({e})"
+
 
 def send_email_alert(city, temp, condition):
     if not all([EMAIL_ADDRESS, EMAIL_PASSWORD, RECEIVER_EMAIL]):
@@ -75,11 +76,10 @@ def build_summary():
     today = date.today().strftime("%A, %d %B %Y")
     city = "Thiruvananthapuram"
     
-    # Fetch Data
     temp, condition, weather_text = get_weather_data(city)
     quote=get_quote()
 
-    # Check for Alert Conditions(>35°C or Rain)
+    #Checking alert conditions(>20°C or Rain)
     if temp is not None and condition is not None:
         if temp > 35 or "rain" in condition.lower():
             print(f"Alert conditions met! Temp: {temp}°C,Condition: {condition}.")

@@ -1,0 +1,36 @@
+name: Weather Alert Bot
+on:
+  schedule:
+    - cron: '30 2 * * *'
+  
+  workflow_dispatch:
+
+jobs:
+  run-alert-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Weather Alert Bot
+        env:
+          OWM_API_KEY: ${{ secrets.OWM_API_KEY }}
+          EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          RECEIVER_EMAIL: ${{ secrets.RECEIVER_EMAIL }}
+        run: python bot.py
+
+      - name: Upload summary as artifact  
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-summary
+          path: daily_summary.txt
